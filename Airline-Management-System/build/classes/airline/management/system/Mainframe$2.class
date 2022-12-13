@@ -1,1 +1,19 @@
+package airline.management.system;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+class Mainframe$2 implements ActionListener {
+    Mainframe$2(Mainframe this$0) {
+        this.this$0 = this$0;
+    }
+
+    public void actionPerformed(ActionEvent ae) {
+        try {
+            new Add_Customer();
+        } catch (Exception var3) {
+            var3.printStackTrace();
+        }
+
+    }
+}
