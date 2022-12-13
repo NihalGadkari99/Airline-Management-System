@@ -1,1 +1,119 @@
+package airline.management.system;
 
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Font;
+import java.awt.LayoutManager;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.ResultSet;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import net.proteanit.sql.DbUtils;
+
+public class Journey_Details extends JFrame {
+    JTable table;
+    JLabel ReservationDetails;
+    JLabel Pnrno;
+    JLabel Ticketid;
+    JLabel Fcode;
+    JLabel Jnydate;
+    JLabel Jnytime;
+    JLabel Source;
+    JLabel Destination;
+    JLabel label;
+    JLabel label1;
+    JButton Show;
+
+    public static void main(String[] args) {
+        new Journey_Details();
+    }
+
+    public Journey_Details() {
+        this.setTitle("JOURNEY_DETAILS");
+        this.getContentPane().setBackground(Color.WHITE);
+        this.setDefaultCloseOperation(3);
+        this.setLayout((LayoutManager)null);
+        this.Source = new JLabel("SOURCE");
+        this.Source.setFont(new Font("Tahoma", 0, 19));
+        this.Source.setBounds(60, 100, 150, 27);
+        this.add(this.Source);
+        this.Destination = new JLabel("DESTINATION");
+        this.Destination.setFont(new Font("Tahoma", 0, 19));
+        this.Destination.setBounds(350, 100, 150, 27);
+        this.add(this.Destination);
+        this.Show = new JButton("SHOW");
+        this.Show.setBounds(680, 100, 100, 30);
+        this.add(this.Show);
+        this.setDefaultCloseOperation(1);
+        this.ReservationDetails = new JLabel("JOURNEY DETAILS");
+        this.ReservationDetails.setForeground(Color.BLUE);
+        this.ReservationDetails.setFont(new Font("Tahoma", 0, 31));
+        this.ReservationDetails.setBounds(280, 27, 359, 31);
+        this.add(this.ReservationDetails);
+        this.Pnrno = new JLabel("PNR_NO");
+        this.Pnrno.setFont(new Font("Tahoma", 0, 13));
+        this.Pnrno.setBounds(79, 270, 83, 20);
+        this.add(this.Pnrno);
+        this.Ticketid = new JLabel("TICKET_ID");
+        this.Ticketid.setFont(new Font("Tahoma", 0, 13));
+        this.Ticketid.setBounds(172, 270, 71, 20);
+        this.add(this.Ticketid);
+        this.Fcode = new JLabel("F_CODE");
+        this.Fcode.setFont(new Font("Tahoma", 0, 13));
+        this.Fcode.setBounds(297, 270, 103, 20);
+        this.add(this.Fcode);
+        this.Jnydate = new JLabel("JNY_DATE");
+        this.Jnydate.setFont(new Font("Tahoma", 0, 13));
+        this.Jnydate.setBounds(390, 270, 94, 20);
+        this.add(this.Jnydate);
+        this.Jnytime = new JLabel("JNY_TIME");
+        this.Jnytime.setFont(new Font("Tahoma", 0, 13));
+        this.Jnytime.setBounds(494, 270, 83, 20);
+        this.add(this.Jnytime);
+        this.Source = new JLabel("SOURCE");
+        this.Source.setFont(new Font("Tahoma", 0, 13));
+        this.Source.setBounds(613, 270, 94, 20);
+        this.add(this.Source);
+        this.Destination = new JLabel("DESTINATION");
+        this.Destination.setFont(new Font("Tahoma", 0, 13));
+        this.Destination.setBounds(717, 270, 94, 20);
+        this.add(this.Destination);
+        String[] items1 = new String[]{"BANGALORE", "MUMBAI", "CHENNAI", "PATNA", "DELHI", "HYDERABAD"};
+        final JComboBox comboBox = new JComboBox(items1);
+        comboBox.setBounds(150, 100, 150, 27);
+        this.add(comboBox);
+        String[] items2 = new String[]{"BANGALORE", "MUMBAI", "CHENNAI", "PATNA", "DELHI", "HYDERABAD"};
+        final JComboBox comboBox_1 = new JComboBox(items2);
+        comboBox_1.setBounds(500, 100, 150, 27);
+        this.add(comboBox_1);
+        this.table = new JTable();
+        this.table.setBounds(38, 310, 770, 130);
+        this.add(this.table);
+        this.Show.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent ae) {
+                try {
+                    String src = (String)comboBox.getSelectedItem();
+                    String dst = (String)comboBox_1.getSelectedItem();
+                    conn c = new conn();
+                    String str = "select pnr_no,ticket_id,f_code,jny_date,jny_time,src,dst from reservation where src = '" + src + "' and dst = '" + dst + "'";
+                    ResultSet rs = c.s.executeQuery(str);
+                    if (rs.next()) {
+                        Journey_Details.this.table.setModel(DbUtils.resultSetToTableModel(rs));
+                    } else {
+                        JOptionPane.showMessageDialog((Component)null, "No Flights between Source and Destination");
+                    }
+                } catch (Exception var7) {
+                }
+
+            }
+        });
+        this.setSize(860, 600);
+        this.setLocation(400, 200);
+        this.setVisible(true);
+    }
+}
