@@ -1,1 +1,145 @@
+package airline.management.system;
 
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Font;
+import java.awt.LayoutManager;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JRadioButton;
+import javax.swing.JTextField;
+
+public class Add_Customer extends JFrame {
+    JTextField textField;
+    JTextField textField_1;
+    JTextField textField_2;
+    JTextField textField_3;
+    JTextField textField_4;
+    JTextField textField_5;
+    JTextField textField_6;
+
+    public Add_Customer() {
+        this.getContentPane().setForeground(Color.BLUE);
+        this.getContentPane().setBackground(Color.WHITE);
+        this.setTitle("ADD CUSTOMER DETAILS");
+        this.setDefaultCloseOperation(1);
+        this.setSize(778, 486);
+        this.getContentPane().setLayout((LayoutManager)null);
+        JLabel Passportno = new JLabel("PASSPORT NO");
+        Passportno.setFont(new Font("Tahoma", 0, 17));
+        Passportno.setBounds(60, 80, 150, 27);
+        this.add(Passportno);
+        this.textField = new JTextField();
+        this.textField.setBounds(200, 80, 150, 27);
+        this.add(this.textField);
+        JButton Next = new JButton("SAVE");
+        Next.setBounds(200, 420, 150, 30);
+        Next.setBackground(Color.BLACK);
+        Next.setForeground(Color.WHITE);
+        this.add(Next);
+        JLabel Pnrno = new JLabel("PNR NO");
+        Pnrno.setFont(new Font("Tahoma", 0, 17));
+        Pnrno.setBounds(60, 120, 150, 27);
+        this.add(Pnrno);
+        this.textField_1 = new JTextField();
+        this.textField_1.setBounds(200, 120, 150, 27);
+        this.add(this.textField_1);
+        JLabel Address = new JLabel("ADDRESS");
+        Address.setFont(new Font("Tahoma", 0, 17));
+        Address.setBounds(60, 170, 150, 27);
+        this.add(Address);
+        this.textField_2 = new JTextField();
+        this.textField_2.setBounds(200, 170, 150, 27);
+        this.add(this.textField_2);
+        JLabel Nationality = new JLabel("NATIONALITY");
+        Nationality.setFont(new Font("Tahoma", 0, 17));
+        Nationality.setBounds(60, 220, 150, 27);
+        this.add(Nationality);
+        this.textField_3 = new JTextField();
+        this.textField_3.setBounds(200, 220, 150, 27);
+        this.add(this.textField_3);
+        JLabel Name = new JLabel("NAME");
+        Name.setFont(new Font("Tahoma", 0, 17));
+        Name.setBounds(60, 270, 150, 27);
+        this.add(Name);
+        this.textField_4 = new JTextField();
+        this.textField_4.setBounds(200, 270, 150, 27);
+        this.add(this.textField_4);
+        JLabel Gender = new JLabel("GENDER");
+        Gender.setFont(new Font("Tahoma", 0, 17));
+        Gender.setBounds(60, 320, 150, 27);
+        this.add(Gender);
+        final JRadioButton NewRadioButton = new JRadioButton("MALE");
+        NewRadioButton.setBackground(Color.WHITE);
+        NewRadioButton.setBounds(200, 320, 70, 27);
+        this.add(NewRadioButton);
+        final JRadioButton Female = new JRadioButton("FEMALE");
+        Female.setBackground(Color.WHITE);
+        Female.setBounds(280, 320, 70, 27);
+        this.add(Female);
+        JLabel Phno = new JLabel("PH NO");
+        Phno.setFont(new Font("Tahoma", 0, 17));
+        Phno.setBounds(60, 370, 150, 27);
+        this.add(Phno);
+        this.textField_5 = new JTextField();
+        this.textField_5.setBounds(200, 370, 150, 27);
+        this.add(this.textField_5);
+        this.setVisible(true);
+        JLabel AddPassengers = new JLabel("ADD CUSTOMER DETAILS");
+        AddPassengers.setForeground(Color.BLUE);
+        AddPassengers.setFont(new Font("Tahoma", 0, 31));
+        AddPassengers.setBounds(420, 24, 442, 35);
+        this.add(AddPassengers);
+        JLabel Flightcode = new JLabel("FLIGHT CODE");
+        Flightcode.setFont(new Font("Tahoma", 0, 17));
+        Flightcode.setBounds(60, 30, 150, 27);
+        this.add(Flightcode);
+        this.textField_6 = new JTextField();
+        this.textField_6.setBounds(200, 30, 150, 27);
+        this.add(this.textField_6);
+        ImageIcon i1 = new ImageIcon(ClassLoader.getSystemResource("airline/management/system/icon/emp.png"));
+        JLabel image = new JLabel(i1);
+        image.setBounds(450, 80, 280, 410);
+        this.add(image);
+        Next.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent ae) {
+                String passport_No = Add_Customer.this.textField.getText();
+                String pnr_no = Add_Customer.this.textField_1.getText();
+                String address = Add_Customer.this.textField_2.getText();
+                String nationality = Add_Customer.this.textField_3.getText();
+                String name = Add_Customer.this.textField_4.getText();
+                String fl_code = Add_Customer.this.textField_6.getText();
+                String gender = null;
+                String ph_no = Add_Customer.this.textField_5.getText();
+                if (NewRadioButton.isSelected()) {
+                    gender = "male";
+                } else if (Female.isSelected()) {
+                    gender = "female";
+                }
+
+                try {
+                    conn c = new conn();
+                    String str = "INSERT INTO passenger values( '" + pnr_no + "', '" + address + "', '" + nationality + "','" + name + "', '" + gender + "', '" + ph_no + "','" + passport_No + "', '" + fl_code + "')";
+                    c.s.executeUpdate(str);
+                    JOptionPane.showMessageDialog((Component)null, "Customer Added");
+                    Add_Customer.this.setVisible(false);
+                } catch (Exception var12) {
+                    var12.printStackTrace();
+                }
+
+            }
+        });
+        this.setSize(900, 600);
+        this.setVisible(true);
+        this.setLocation(400, 200);
+    }
+
+    public static void main(String[] args) {
+        new Add_Customer();
+    }
+}
