@@ -1,1 +1,14 @@
+final class Practice$1 implements Runnable {
+    Practice$1() {
+    }
 
+    public void run() {
+        try {
+            Practice window = new Practice();
+            Practice.access$000(window).setVisible(true);
+        } catch (Exception var2) {
+            var2.printStackTrace();
+        }
+
+    }
+}
