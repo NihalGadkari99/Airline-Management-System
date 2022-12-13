@@ -1,1 +1,109 @@
+package airline.management.system;
 
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.LayoutManager;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import net.proteanit.sql.DbUtils;
+
+public class Payment_Details extends JFrame {
+    JTextField textField;
+    JTable table;
+    JLabel Sector;
+    JLabel FlightCode;
+    JLabel Capacity;
+    JLabel Classcode;
+    JLabel Classname;
+    JLabel label;
+
+    public static void main(String[] args) {
+        new Payment_Details();
+    }
+
+    public Payment_Details() {
+        this.initialize();
+    }
+
+    private void initialize() {
+        this.setTitle("PAYMENT_DETAILS");
+        this.getContentPane().setBackground(Color.WHITE);
+        this.setSize(860, 486);
+        this.setLayout((LayoutManager)null);
+        JLabel Fcode = new JLabel("PNR NO");
+        Fcode.setFont(new Font("Tahoma", 0, 17));
+        Fcode.setBounds(60, 160, 150, 26);
+        this.add(Fcode);
+        this.textField = new JTextField();
+        this.textField.setBounds(200, 160, 150, 26);
+        this.add(this.textField);
+        this.table = new JTable();
+        this.table.setBounds(45, 329, 766, 87);
+        this.add(this.table);
+        JButton Show = new JButton("SHOW");
+        Show.setFont(new Font("Tahoma", 0, 17));
+        Show.setBackground(Color.BLACK);
+        Show.setForeground(Color.WHITE);
+        Show.setBounds(200, 210, 150, 26);
+        this.add(Show);
+        this.Sector = new JLabel("PAYMENT DETAILS");
+        this.Sector.setForeground(Color.BLUE);
+        this.Sector.setFont(new Font("Tahoma", 0, 31));
+        this.Sector.setBounds(51, 17, 300, 39);
+        this.add(this.Sector);
+        this.FlightCode = new JLabel("PNR_NO");
+        this.FlightCode.setFont(new Font("Tahoma", 0, 13));
+        this.FlightCode.setBounds(84, 292, 108, 26);
+        this.add(this.FlightCode);
+        this.Capacity = new JLabel("PAID_AMOUNT");
+        this.Capacity.setFont(new Font("Tahoma", 0, 13));
+        this.Capacity.setBounds(183, 298, 92, 14);
+        this.add(this.Capacity);
+        this.Classcode = new JLabel("PAY_DATE");
+        this.Classcode.setFont(new Font("Tahoma", 0, 13));
+        this.Classcode.setBounds(322, 294, 101, 24);
+        this.add(this.Classcode);
+        this.Classname = new JLabel("CHEQUE_NO");
+        this.Classname.setFont(new Font("Tahoma", 0, 13));
+        this.Classname.setBounds(455, 298, 114, 14);
+        this.add(this.Classname);
+        this.label = new JLabel("");
+        this.label.setIcon(new ImageIcon(ClassLoader.getSystemResource("airline/management/system/icon/payment.png")));
+        this.label.setBounds(425, 15, 239, 272);
+        this.add(this.label);
+        JLabel Cardno = new JLabel("CARD_NO");
+        Cardno.setFont(new Font("Tahoma", 0, 13));
+        Cardno.setBounds(602, 299, 101, 19);
+        this.add(Cardno);
+        JLabel Phoneno = new JLabel("PHONE_NO");
+        Phoneno.setFont(new Font("Tahoma", 0, 13));
+        Phoneno.setBounds(712, 294, 86, 24);
+        this.add(Phoneno);
+        this.setVisible(true);
+        Show.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent ae) {
+                try {
+                    String code = Payment_Details.this.textField.getText();
+                    conn c = new conn();
+                    String str = "select pnr_no,paid_amt,pay_date,cheque_no,card_no,ph_no from payment where pnr_no = '" + code + "'";
+                    ResultSet rs = c.s.executeQuery(str);
+                    Payment_Details.this.table.setModel(DbUtils.resultSetToTableModel(rs));
+                } catch (SQLException var6) {
+                    var6.printStackTrace();
+                }
+
+            }
+        });
+        this.setSize(960, 590);
+        this.setLocation(400, 200);
+        this.setVisible(true);
+    }
+}
