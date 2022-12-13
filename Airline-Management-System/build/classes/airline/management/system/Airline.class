@@ -1,1 +1,75 @@
+package airline.management.system;
 
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Label;
+import java.awt.LayoutManager;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+
+public class Airline extends JFrame {
+    private JFrame frame;
+    private JTextField textField;
+    private JPasswordField passwordField;
+
+    public static void main(String[] args) {
+        new Airline();
+    }
+
+    public Airline() {
+        this.initialize();
+    }
+
+    public void initialize() {
+        this.frame = new JFrame("MYLOGIN");
+        this.frame.getContentPane().setFont(new Font("Tahoma", 0, 21));
+        this.frame.getContentPane().setBackground(new Color(255, 153, 204));
+        this.frame.getContentPane().setForeground(new Color(100, 149, 237));
+        this.frame.setBounds(100, 100, 866, 452);
+        this.frame.setDefaultCloseOperation(3);
+        this.frame.getContentPane().setLayout((LayoutManager)null);
+        JLabel lblLogin = new JLabel("LOGIN");
+        lblLogin.setFont(new Font("Tahoma", 0, 19));
+        lblLogin.setBounds(111, 138, 100, 25);
+        this.frame.getContentPane().add(lblLogin);
+        JLabel lblPassword = new JLabel("PASSWORD");
+        lblPassword.setFont(new Font("Tahoma", 0, 19));
+        lblPassword.setBounds(81, 217, 100, 25);
+        this.frame.getContentPane().add(lblPassword);
+        JButton btnOk = new JButton("OK");
+        btnOk.setFont(new Font("Tahoma", 0, 19));
+        btnOk.setBounds(236, 296, 80, 25);
+        this.frame.getContentPane().add(btnOk);
+        this.frame.setDefaultCloseOperation(1);
+        this.frame.getContentPane().add(btnOk);
+        this.textField = new JTextField();
+        this.textField.setBounds(206, 138, 189, 25);
+        this.frame.getContentPane().add(this.textField);
+        this.textField.setColumns(10);
+        this.passwordField = new JPasswordField();
+        this.passwordField.setBounds(206, 217, 189, 25);
+        this.frame.getContentPane().add(this.passwordField);
+        Label label = new Label("LOGIN FORM");
+        label.setFont(new Font("Dialog", 0, 44));
+        label.setBounds(236, 10, 413, 44);
+        this.frame.getContentPane().add(label);
+        JLabel label_1 = new JLabel("");
+        label_1.setIcon(new ImageIcon("C:\\Users\\Mithun\\Downloads\\20171109195143.jpg"));
+        label_1.setBounds(435, 115, 382, 258);
+        this.frame.getContentPane().add(label_1);
+        btnOk.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent ae) {
+                Airline.this.frame.dispose();
+                new Mainframe();
+            }
+        });
+        this.frame.setSize(960, 586);
+        this.frame.setVisible(true);
+    }
+}
