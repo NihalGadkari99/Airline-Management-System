@@ -1,1 +1,40 @@
+package airline.management.system;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
+class Cancel$2 implements ActionListener {
+    Cancel$2(Cancel this$0) {
+        this.this$0 = this$0;
+    }
+
+    public void actionPerformed(ActionEvent ae) {
+        String passenger_no = Cancel.access$100(this.this$0).getText();
+        String cancellation_no = Cancel.access$200(this.this$0).getText();
+        String cancellation_date = Cancel.access$300(this.this$0).getText();
+        String ticket_id = Cancel.access$400(this.this$0).getText();
+        String flight_code = Cancel.access$500(this.this$0).getText();
+
+        try {
+            Class.forName(Cancel.driver);
+            this.this$0.con = DriverManager.getConnection(Cancel.url + Cancel.dbname, Cancel.userName, Cancel.password);
+        } catch (SQLException | ClassNotFoundException var9) {
+            var9.printStackTrace();
+        }
+
+        try {
+            this.this$0.pst = this.this$0.con.prepareStatement("INSERT INTO `airline`.`cancellation` (`pnr_no`, `cancellation_no`, `cancellation_date`, `ticket_id`, `fli_code`) VALUES (?, ?, ?, ?, ?);");
+            this.this$0.pst.setString(1, passenger_no);
+            this.this$0.pst.setString(2, cancellation_no);
+            this.this$0.pst.setString(3, cancellation_date);
+            this.this$0.pst.setString(4, ticket_id);
+            this.this$0.pst.setString(5, flight_code);
+            this.this$0.pst.executeUpdate();
+        } catch (Exception var8) {
+            var8.printStackTrace();
+        }
+
+    }
+}
