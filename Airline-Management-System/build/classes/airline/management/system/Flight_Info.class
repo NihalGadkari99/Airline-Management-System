@@ -1,1 +1,104 @@
+package airline.management.system;
 
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.LayoutManager;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import net.proteanit.sql.DbUtils;
+
+public class Flight_Info extends JFrame {
+    private JTable table;
+    private JTextField textField;
+
+    public static void main(String[] args) {
+        (new Flight_Info()).setVisible(true);
+    }
+
+    public Flight_Info() {
+        this.getContentPane().setBackground(Color.WHITE);
+        this.getContentPane().setFont(new Font("Tahoma", 0, 13));
+        this.setDefaultCloseOperation(3);
+        this.setSize(860, 523);
+        this.setLayout((LayoutManager)null);
+        this.setVisible(true);
+        JLabel Fcode = new JLabel("FLIGHT CODE");
+        Fcode.setFont(new Font("Tahoma", 0, 17));
+        Fcode.setBounds(50, 100, 200, 30);
+        this.add(Fcode);
+        JLabel FlightDetails = new JLabel("FLIGHT INFORMATION");
+        FlightDetails.setFont(new Font("Tahoma", 0, 31));
+        FlightDetails.setForeground(new Color(100, 149, 237));
+        FlightDetails.setBounds(50, 20, 570, 35);
+        this.add(FlightDetails);
+        JButton btnShow = new JButton("SHOW");
+        btnShow.setFont(new Font("Tahoma", 0, 20));
+        btnShow.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent ae) {
+                String code = Flight_Info.this.textField.getText();
+
+                try {
+                    conn c = new conn();
+                    String str = "select f_code,f_name,src,dst,capacity,class_code,class_name from flight ,sector where f_code = '" + code + "'";
+                    ResultSet rs = c.s.executeQuery(str);
+                    Flight_Info.this.table.setModel(DbUtils.resultSetToTableModel(rs));
+                } catch (SQLException var6) {
+                    var6.printStackTrace();
+                }
+
+            }
+        });
+        btnShow.setBounds(220, 150, 120, 30);
+        this.add(btnShow);
+        this.table = new JTable();
+        this.table.setBackground(Color.WHITE);
+        this.table.setBounds(23, 250, 800, 300);
+        JScrollPane pane = new JScrollPane(this.table);
+        pane.setBounds(23, 250, 800, 300);
+        pane.setBackground(Color.WHITE);
+        this.add(pane);
+        this.textField = new JTextField();
+        this.textField.setBounds(220, 100, 200, 30);
+        this.add(this.textField);
+        JLabel FlightCode = new JLabel("FLIGHT CODE");
+        FlightCode.setFont(new Font("Tahoma", 0, 13));
+        FlightCode.setBounds(23, 220, 126, 14);
+        this.add(FlightCode);
+        JLabel FlightName = new JLabel("FLIGHT NAME");
+        FlightName.setFont(new Font("Tahoma", 0, 13));
+        FlightName.setBounds(145, 220, 120, 14);
+        this.add(FlightName);
+        JLabel Source = new JLabel("SOURCE");
+        Source.setFont(new Font("Tahoma", 0, 13));
+        Source.setBounds(275, 220, 104, 14);
+        this.add(Source);
+        JLabel Destination = new JLabel("DESTINATION");
+        Destination.setFont(new Font("Tahoma", 0, 13));
+        Destination.setBounds(367, 220, 120, 14);
+        this.add(Destination);
+        JLabel Capacity = new JLabel("CAPACITY");
+        Capacity.setFont(new Font("Tahoma", 0, 13));
+        Capacity.setBounds(497, 220, 111, 14);
+        this.add(Capacity);
+        JLabel ClassCode = new JLabel("CLASS CODE");
+        ClassCode.setFont(new Font("Tahoma", 0, 13));
+        ClassCode.setBounds(587, 220, 120, 14);
+        this.add(ClassCode);
+        JLabel ClassName = new JLabel("CLASS NAME");
+        ClassName.setFont(new Font("Tahoma", 0, 13));
+        ClassName.setBounds(700, 220, 111, 14);
+        this.add(ClassName);
+        this.setDefaultCloseOperation(1);
+        this.setSize(900, 650);
+        this.setVisible(true);
+        this.setLocation(400, 200);
+    }
+}
