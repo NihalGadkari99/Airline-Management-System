@@ -1,1 +1,34 @@
+package airline.management.system;
 
+import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.ResultSet;
+import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
+import net.proteanit.sql.DbUtils;
+
+class Journey_Details$1 implements ActionListener {
+    Journey_Details$1(Journey_Details this$0, JComboBox var2, JComboBox var3) {
+        this.this$0 = this$0;
+        this.val$comboBox = var2;
+        this.val$comboBox_1 = var3;
+    }
+
+    public void actionPerformed(ActionEvent ae) {
+        try {
+            String src = (String)this.val$comboBox.getSelectedItem();
+            String dst = (String)this.val$comboBox_1.getSelectedItem();
+            conn c = new conn();
+            String str = "select pnr_no,ticket_id,f_code,jny_date,jny_time,src,dst from reservation where src = '" + src + "' and dst = '" + dst + "'";
+            ResultSet rs = c.s.executeQuery(str);
+            if (rs.next()) {
+                this.this$0.table.setModel(DbUtils.resultSetToTableModel(rs));
+            } else {
+                JOptionPane.showMessageDialog((Component)null, "No Flights between Source and Destination");
+            }
+        } catch (Exception var7) {
+        }
+
+    }
+}
