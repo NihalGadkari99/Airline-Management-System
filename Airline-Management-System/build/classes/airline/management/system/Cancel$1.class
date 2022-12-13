@@ -1,1 +1,31 @@
+package airline.management.system;
 
+import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.JOptionPane;
+
+class Cancel$1 implements ActionListener {
+    Cancel$1(Cancel this$0) {
+        this.this$0 = this$0;
+    }
+
+    public void actionPerformed(ActionEvent ae) {
+        String passenger_no = Cancel.access$000(this.this$0).getText();
+        String cancellation_no = Cancel.access$100(this.this$0).getText();
+        String cancellation_date = Cancel.access$200(this.this$0).getText();
+        String ticket_id = Cancel.access$300(this.this$0).getText();
+        String flight_code = Cancel.access$400(this.this$0).getText();
+
+        try {
+            conn c = new conn();
+            String str = "INSERT INTO cancellation values('" + passenger_no + "', '" + cancellation_no + "', '" + cancellation_date + "', '" + ticket_id + "', '" + flight_code + "')";
+            c.s.executeUpdate(str);
+            JOptionPane.showMessageDialog((Component)null, "Ticket Canceled");
+            this.this$0.setVisible(false);
+        } catch (Exception var9) {
+            var9.printStackTrace();
+        }
+
+    }
+}
