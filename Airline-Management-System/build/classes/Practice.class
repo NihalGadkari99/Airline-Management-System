@@ -1,1 +1,151 @@
+import java.awt.Color;
+import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.LayoutManager;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Statement;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
 
+public class Practice {
+    static Connection mycon = null;
+    static String url = "jdbc:mysql://localhost:3306";
+    static String dbname = "/airline";
+    static String driver = "com.mysql.jdbc.Driver";
+    static String userName = "root";
+    static String password = "manju";
+    Connection con = null;
+    PreparedStatement pst = null;
+    private JFrame frame;
+    private JTextField textField;
+    private JTextField textField_1;
+    private JTextField textField_2;
+    private JTextField textField_3;
+    private JTextField textField_4;
+
+    public static void main(String[] args) {
+        EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                try {
+                    Practice window = new Practice();
+                    window.frame.setVisible(true);
+                } catch (Exception var2) {
+                    var2.printStackTrace();
+                }
+
+            }
+        });
+    }
+
+    public Practice() {
+        this.initialize();
+    }
+
+    private void initialize() {
+        this.frame = new JFrame("CANCELLATION");
+        this.frame.getContentPane().setBackground(new Color(255, 153, 204));
+        this.frame.setBounds(100, 100, 801, 472);
+        this.frame.setDefaultCloseOperation(3);
+        this.frame.getContentPane().setLayout((LayoutManager)null);
+        JLabel lblCancellation = new JLabel("CANCELLATION");
+        lblCancellation.setFont(new Font("Tahoma", 0, 31));
+        lblCancellation.setBounds(195, 24, 259, 38);
+        this.frame.getContentPane().add(lblCancellation);
+        JLabel lblNewLabel = new JLabel("");
+        lblNewLabel.setIcon(new ImageIcon("C:\\Users\\Mithun\\Downloads\\images.jpg"));
+        lblNewLabel.setBounds(510, 80, 248, 266);
+        this.frame.getContentPane().add(lblNewLabel);
+        JLabel lblPassengerNo = new JLabel("PASSENGER NO");
+        lblPassengerNo.setFont(new Font("Tahoma", 0, 17));
+        lblPassengerNo.setBounds(60, 103, 132, 26);
+        this.frame.getContentPane().add(lblPassengerNo);
+        JLabel lblCancellationNo = new JLabel("CANCELLATION NO");
+        lblCancellationNo.setFont(new Font("Tahoma", 0, 17));
+        lblCancellationNo.setBounds(51, 151, 152, 31);
+        this.frame.getContentPane().add(lblCancellationNo);
+        JLabel lblCancellationDate = new JLabel("CANCELLATION DATE");
+        lblCancellationDate.setFont(new Font("Tahoma", 0, 17));
+        lblCancellationDate.setBounds(51, 206, 166, 26);
+        this.frame.getContentPane().add(lblCancellationDate);
+        JLabel lblTicketid = new JLabel("TICKET_ID");
+        lblTicketid.setFont(new Font("Tahoma", 0, 17));
+        lblTicketid.setBounds(79, 256, 126, 26);
+        this.frame.getContentPane().add(lblTicketid);
+        JLabel lblFlightcode = new JLabel("FLIGHT_CODE");
+        lblFlightcode.setFont(new Font("Tahoma", 0, 17));
+        lblFlightcode.setBounds(68, 300, 124, 38);
+        this.frame.getContentPane().add(lblFlightcode);
+        JButton btnCancel = new JButton("CANCEL");
+        btnCancel.setFont(new Font("Tahoma", 0, 14));
+        btnCancel.setBounds(209, 382, 139, 26);
+        this.frame.getContentPane().add(btnCancel);
+        this.textField = new JTextField();
+        this.textField.setBounds(236, 106, 152, 26);
+        this.frame.getContentPane().add(this.textField);
+        this.textField.setColumns(10);
+        this.textField_1 = new JTextField();
+        this.textField_1.setBounds(236, 159, 152, 23);
+        this.frame.getContentPane().add(this.textField_1);
+        this.textField_1.setColumns(10);
+        this.textField_2 = new JTextField();
+        this.textField_2.setBounds(236, 206, 157, 27);
+        this.frame.getContentPane().add(this.textField_2);
+        this.textField_2.setColumns(10);
+        this.textField_3 = new JTextField();
+        this.textField_3.setBounds(236, 262, 157, 23);
+        this.frame.getContentPane().add(this.textField_3);
+        this.textField_3.setColumns(10);
+        this.textField_4 = new JTextField();
+        this.textField_4.setBounds(236, 312, 157, 26);
+        this.frame.getContentPane().add(this.textField_4);
+        this.textField_4.setColumns(10);
+
+        try {
+            Class.forName(driver);
+            mycon = DriverManager.getConnection(url + dbname, userName, password);
+            Statement var9 = mycon.createStatement();
+        } catch (SQLException | ClassNotFoundException var10) {
+            var10.printStackTrace();
+        }
+
+        btnCancel.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent ae) {
+                String passenger_no = Practice.this.textField.getText();
+                String cancellation_no = Practice.this.textField_1.getText();
+                String cancellation_date = Practice.this.textField_2.getText();
+                String ticket_id = Practice.this.textField_3.getText();
+                String flight_code = Practice.this.textField_4.getText();
+
+                try {
+                    Class.forName(Practice.driver);
+                    Practice.this.con = DriverManager.getConnection(Practice.url + Practice.dbname, Practice.userName, Practice.password);
+                } catch (SQLException | ClassNotFoundException var9) {
+                    var9.printStackTrace();
+                }
+
+                try {
+                    Practice.this.pst = Practice.this.con.prepareStatement("INSERT INTO `airline`.`cancellation` (`pnr_no`, `cancellation_no`, `cancellation_date`, `ticket_id`, `fli_code`) VALUES (?, ?, ?, ?, ?);");
+                    Practice.this.pst.setString(1, passenger_no);
+                    Practice.this.pst.setString(2, cancellation_no);
+                    Practice.this.pst.setString(3, cancellation_date);
+                    Practice.this.pst.setString(4, ticket_id);
+                    Practice.this.pst.setString(5, flight_code);
+                    Practice.this.pst.executeUpdate();
+                } catch (Exception var8) {
+                    var8.printStackTrace();
+                }
+
+            }
+        });
+        this.frame.setSize(960, 586);
+        this.frame.setVisible(true);
+    }
+}
