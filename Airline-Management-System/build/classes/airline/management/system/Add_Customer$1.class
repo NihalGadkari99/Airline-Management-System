@@ -1,1 +1,42 @@
+package airline.management.system;
 
+import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.JOptionPane;
+import javax.swing.JRadioButton;
+
+class Add_Customer$1 implements ActionListener {
+    Add_Customer$1(Add_Customer this$0, JRadioButton var2, JRadioButton var3) {
+        this.this$0 = this$0;
+        this.val$NewRadioButton = var2;
+        this.val$Female = var3;
+    }
+
+    public void actionPerformed(ActionEvent ae) {
+        String passport_No = this.this$0.textField.getText();
+        String pnr_no = this.this$0.textField_1.getText();
+        String address = this.this$0.textField_2.getText();
+        String nationality = this.this$0.textField_3.getText();
+        String name = this.this$0.textField_4.getText();
+        String fl_code = this.this$0.textField_6.getText();
+        String gender = null;
+        String ph_no = this.this$0.textField_5.getText();
+        if (this.val$NewRadioButton.isSelected()) {
+            gender = "male";
+        } else if (this.val$Female.isSelected()) {
+            gender = "female";
+        }
+
+        try {
+            conn c = new conn();
+            String str = "INSERT INTO passenger values( '" + pnr_no + "', '" + address + "', '" + nationality + "','" + name + "', '" + gender + "', '" + ph_no + "','" + passport_No + "', '" + fl_code + "')";
+            c.s.executeUpdate(str);
+            JOptionPane.showMessageDialog((Component)null, "Customer Added");
+            this.this$0.setVisible(false);
+        } catch (Exception var12) {
+            var12.printStackTrace();
+        }
+
+    }
+}
